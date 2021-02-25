@@ -27,8 +27,13 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	flag.Parse()
+
+	rooms := []Room{}
+	rooms = append(rooms, CreateRoom(1, "all"))
+
 	hub := newHub()
 	go hub.run()
+
 	http.HandleFunc("/", serveHome)
 	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		serveWs(hub, w, r)
