@@ -8,6 +8,7 @@ import (
 	"flag"
 	"log"
 	"net/http"
+	"fmt"
 )
 
 var addr = flag.String("addr", ":8080", "http service address")
@@ -31,11 +32,10 @@ func main() {
 	rooms := []Room{}
 	rooms = append(rooms, CreateRoom(1, "all"))
 
-	hub := newHub()
-	go hub.run()
 
 	http.HandleFunc("/", serveHome)
-	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/ws/{roomId}", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println(r.URL.RawQuery)
 		serveWs(hub, w, r)
 	})
 	err := http.ListenAndServe(*addr, nil)
