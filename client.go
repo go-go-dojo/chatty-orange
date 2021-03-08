@@ -5,6 +5,8 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -30,7 +32,7 @@ var (
 	newline = []byte{'\n'}
 	space   = []byte{' '}
 	// map of Hubs
-	hubsPerRoomName = make(map[string]*Hub)
+	rooms = make(map[string]*Room)
 )
 
 var upgrader = websocket.Upgrader{
@@ -123,16 +125,29 @@ func (c *Client) writePump() {
 
 // enterChatroom selects the client and the correct room to enter
 func enterChatroom(w http.ResponseWriter, r *http.Request, chatroomId string) {
-	hub, ok := hubsPerRoomName[chatroomId]
+	room, ok := rooms[chatroomId]
 	if !ok {
 		// TODO return 404 if didn't find the Hub for a room
 	}
 
-	serveWs(hub, w, r)
+	serveWs(room.Hub, w, r)
+}
+
+type CreateRoomBody struct {
+	Id   int    `json:"id"`
+	Name string `json:"name"`
 }
 
 func CreateRoomHandler(w http.ResponseWriter, r *http.Request) {
-
+	var createRoomBody CreateRoomBody
+	err := json.NewDecoder(r.Body).Decode(&createRoomBody)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(fmt.Sprintf("%v", err.Error())))
+		return
+	}
+	rooms[createRoomBody.Name] = CreateRoom(createRoomBody.Id, createRoomBody.Name)
+	w.WriteHeader(http.StatusOK)
 }
 
 // serveWs handles websocket requests from the peer.

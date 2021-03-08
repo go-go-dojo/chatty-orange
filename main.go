@@ -31,9 +31,6 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 func main() {
 	flag.Parse()
 	r := mux.NewRouter()
-	
-	rooms := []Room{}
-	rooms = append(rooms, CreateRoom(1, "all"))
 
 	r.HandleFunc("/", serveHome)
 	r.HandleFunc("/ws/{roomId}", func(w http.ResponseWriter, r *http.Request) {
@@ -41,7 +38,7 @@ func main() {
 		vars := mux.Vars(r)
 		enterChatroom(w, r, vars["roomId"])
 	}).Methods("GET")
-	
+
 	r.HandleFunc("/room", CreateRoomHandler).Methods("POST")
 
 	srv := &http.Server{
@@ -53,9 +50,4 @@ func main() {
 	}
 
 	log.Fatal(srv.ListenAndServe())
-
-	err := srv.ListenAndServe()
-	if err != nil {
-		log.Fatal("ListenAndServe: ", err)
-	}
 }

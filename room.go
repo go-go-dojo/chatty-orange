@@ -6,15 +6,13 @@ type Room struct {
 	Hub  *Hub
 }
 
-func CreateRoom(id int, name string) Room {
+func CreateRoom(id int, name string) *Room {
 	hub := newHub()
 	go hub.run()
 
-	return Room{
+	return &Room{
 		Name: name,
 		ID:   id,
 		Hub:  hub,
 	}
 }
-
-
