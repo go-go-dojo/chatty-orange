@@ -1,0 +1,37 @@
+{
+	"info": {
+		"_postman_id": "fef3c14f-cac5-4f5f-98ca-9006e7afd905",
+		"name": "Chatty Orange",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CreateRoom",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\" : 123,\n    \"name\" : \"general\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/room",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"room"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
