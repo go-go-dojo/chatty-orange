@@ -127,7 +127,8 @@ func (c *Client) writePump() {
 func enterChatroom(w http.ResponseWriter, r *http.Request, chatroomId string) {
 	room, ok := rooms[chatroomId]
 	if !ok {
-		// TODO return 404 if didn't find the Hub for a room
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("{ 'error': 'Chatroom not found.' }"))
 	}
 
 	serveWs(room.Hub, w, r)

@@ -7,10 +7,11 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/gorilla/mux"
 )
 
 var addr = flag.String("addr", ":8080", "http service address")
@@ -48,6 +49,6 @@ func main() {
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
-
+	log.Printf("Starting Server at %v", srv.Addr)
 	log.Fatal(srv.ListenAndServe())
 }
