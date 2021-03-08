@@ -122,12 +122,21 @@ func (c *Client) writePump() {
 }
 
 // enterChatroom selects the client and the correct room to enter
-func enterChatroom(hub *Hub, w http.ResponseWriter, r *http.Request, chatroomId string) {
+func enterChatroom(w http.ResponseWriter, r *http.Request, chatroomId string) {
+	hub, ok := hubsPerRoomName[chatroomId]
+	if !ok {
+		// TODO return 404 if didn't find the Hub for a room
+	}
+
+	serveWs(hub, w, r)
+}
+
+func CreateRoomHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
 // serveWs handles websocket requests from the peer.
-func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request, client Client) {
+func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
