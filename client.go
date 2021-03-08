@@ -5,10 +5,11 @@ package main
 
 import (
 	"bytes"
-	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/gorilla/websocket"
 )
 
 const (
@@ -28,6 +29,8 @@ const (
 var (
 	newline = []byte{'\n'}
 	space   = []byte{' '}
+	// map of Hubs
+	hubsPerRoomName = make(map[string]*Hub)
 )
 
 var upgrader = websocket.Upgrader{
@@ -118,8 +121,13 @@ func (c *Client) writePump() {
 	}
 }
 
+// enterChatroom selects the client and the correct room to enter
+func enterChatroom(hub *Hub, w http.ResponseWriter, r *http.Request, chatroomId string) {
+
+}
+
 // serveWs handles websocket requests from the peer.
-func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
+func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request, client Client) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)

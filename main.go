@@ -6,9 +6,11 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"net/http"
-	"fmt"
+
+	"github.com/gorilla/mux"
 )
 
 var addr = flag.String("addr", ":8080", "http service address")
@@ -32,11 +34,11 @@ func main() {
 	rooms := []Room{}
 	rooms = append(rooms, CreateRoom(1, "all"))
 
-
 	http.HandleFunc("/", serveHome)
 	http.HandleFunc("/ws/{roomId}", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(r.URL.RawQuery)
-		serveWs(hub, w, r)
+		vars := mux.Vars(r)
+		enterChatRoom(hub, w, r, vars["roomId"])
 	})
 	err := http.ListenAndServe(*addr, nil)
 	if err != nil {
