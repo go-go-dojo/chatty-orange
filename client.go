@@ -147,6 +147,8 @@ func enterChatroom(w http.ResponseWriter, r *http.Request, chatroomId, username 
 
 func sendJoinRoomEvent(room *Room, username string) {
 	//send events
+	message := username + ": entered in the room"
+	room.Hub.broadcast <- []byte(message)
 }
 
 type CreateRoomBody struct {
