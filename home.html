@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
     <title>Enter chatroom</title>
-    
+
+    <script>
+        
+    </script>
+
     <style type="text/css">
         html {
             overflow: hidden;
@@ -17,23 +21,11 @@
             background: gray;
         }
 
-        #log {
-            background: white;
-            margin: 0;
-            padding: 0.5em 0.5em 0.5em 0.5em;
-            position: absolute;
-            top: 0.5em;
-            left: 0.5em;
-            right: 0.5em;
-            bottom: 3em;
-            overflow: auto;
-        }
-
         #form {
             padding: 0 0.5em 0 0.5em;
             margin: 0;
             position: absolute;
-            bottom: 1em;
+            /*bottom: 1em;*/
             left: 0px;
             width: 100%;
             overflow: hidden;
@@ -44,8 +36,9 @@
 <body>
 <div id="log"></div>
 <form id="form">
-    <input type="submit" value="Send" />
-    <input type="text" id="msg" size="64" autofocus />
+    <label for="room">room</label><input type="text" id="room" size="64" autofocus /><br />
+    <label for="username">username</label><input type="text" id="username" size="64" />
+    <input type="enter" value="Enter room" />
 </form>
 </body>
 </html>
