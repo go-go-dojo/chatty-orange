@@ -6,7 +6,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -34,11 +33,7 @@ func main() {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/", serveHome)
-	r.HandleFunc("/ws/{roomId}", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println(r.URL.RawQuery)
-		vars := mux.Vars(r)
-		enterChatroom(w, r, vars["roomId"])
-	}).Methods("GET")
+	r.HandleFunc("/ws/{roomId}?username={username}").Methods("GET")
 
 	r.HandleFunc("/room", CreateRoomHandler).Methods("POST")
 

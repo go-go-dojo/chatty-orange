@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
 )
 
@@ -121,6 +122,12 @@ func (c *Client) writePump() {
 			}
 		}
 	}
+}
+
+func EnterRoomHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(r.URL.RawQuery)
+	vars := mux.Vars(r)
+	enterChatroom(w, r, vars["roomId"])
 }
 
 // enterChatroom selects the client and the correct room to enter
