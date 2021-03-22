@@ -127,11 +127,13 @@ func (c *Client) writePump() {
 func EnterRoomHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.URL.RawQuery)
 	vars := mux.Vars(r)
-	enterChatroom(w, r, vars["roomId"])
+	v := r.URL.Query()
+	username := v.Get("username")
+	enterChatroom(w, r, vars["roomId"], username)
 }
 
 // enterChatroom selects the client and the correct room to enter
-func enterChatroom(w http.ResponseWriter, r *http.Request, chatroomId string) {
+func enterChatroom(w http.ResponseWriter, r *http.Request, chatroomId, username string) {
 	room, ok := rooms[chatroomId]
 	if !ok {
 		w.WriteHeader(http.StatusNotFound)

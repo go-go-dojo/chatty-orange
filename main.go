@@ -33,7 +33,7 @@ func main() {
 	r := mux.NewRouter()
 
 	r.HandleFunc("/", serveHome)
-	r.HandleFunc("/ws/{roomId}?username={username}").Methods("GET")
+	r.HandleFunc("/ws/{roomId}", EnterRoomHandler).Methods("GET")
 
 	r.HandleFunc("/room", CreateRoomHandler).Methods("POST")
 
