@@ -138,11 +138,12 @@ func enterChatroom(w http.ResponseWriter, r *http.Request, chatroomId, username 
 	if !ok {
 		w.WriteHeader(http.StatusNotFound)
 		w.Write([]byte("{ 'error': 'Chatroom not found.' }"))
+		return
 	}
 	room.AddUser(username)
 
 	serveWs(room.Hub, w, r)
-	sendJoinRoomEvent(room,username)
+	sendJoinRoomEvent(room, username)
 }
 
 func sendJoinRoomEvent(room *Room, username string) {
